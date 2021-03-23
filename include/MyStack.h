@@ -1,3 +1,4 @@
+#pragma once
 #ifndef INCLUDE_MYSTACK_H_
 #define INCLUDE_MYSTACK_H_
 #define CRT_SECURE_NO_WARNINGS
@@ -5,7 +6,7 @@
 
 
 template<typename T>
-class MyStack 
+class MyStack
 {
 private:
 	int size;
@@ -13,65 +14,65 @@ private:
 	T* stack;
 
 public:
-	explicit MyStack(int i) 
+	explicit MyStack(int i)
 	{
 		this->size = 0;
 		this->max_size = i;
 		this->stack = new T[i];
 	}
-	MyStack(const MyStack& MyStack) 
+	MyStack(const MyStack& MyStack)
 	{
 		this->max_size = MyStack.max_size;
 		this->size = MyStack.size;
 		this->stack = MyStack.stack;
 	}
-	~MyStack() 
+	~MyStack()
 	{
 		delete[] this->stack;
 	}
-	T get() const 
+	T get() const
 	{
-		if (!isEmpty()) 
+		if (!isEmpty())
 		{
 			return this->stack[size - 1];
 		}
-		else 
+		else
 		{
 			return -1;
 		}
 	}
-	T pop() 
+	T pop()
 	{
-		if (!isEmpty()) 
+		if (!isEmpty())
 		{
 			this->size--;
 			return this->stack[size];
 		}
-		else 
+		else
 		{
 			return -1;
 		}
 	}
-	T push(T element) 
+	T push(T element)
 	{
-		if (!isFull()) 
+		if (!isFull())
 		{
 			this->stack[size] = element;
 			this->size++;
 			return element;
 		}
-		else 
+		else
 		{
 			return -1;
 		}
 	}
-	bool isFull() const 
+	bool isFull() const
 	{
 		if (this->size == this->max_size) return true;
 		else
 			return false;
 	}
-	bool isEmpty() const 
+	bool isEmpty() const
 	{
 		if (this->size == 0) return true;
 		else
