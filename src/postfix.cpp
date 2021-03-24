@@ -1,3 +1,4 @@
+#include "MyStack.h"
 #include "postfix.h"
 #include "MyStack.h"
 
@@ -12,50 +13,51 @@ int prior(char s)
 		return 10;
 }
 
-std::string infix2prefix(std::string infix) 
+std::string infix2postfix(std::string infix) 
 {
-	MyStack<char> operand(infix.size());
-	std::string prefix = "";
-	for (char i : infix) 
+	return infix;
+	std::string infix2prefix(std::string infix) 
 	{
-		if (prior(i) == 5) 
+		MyStack<char> operand(infix.size());
+		std::string prefix = "";
+		for (char i : infix) 
 		{
-			prefix = prefix + i;
-		}
-		else if ((i == '(') || ((prior(i) != 10) && (operand.isEmpty()))) 
-		{
-			operand.push(i);
-		}
-		else if (i == ')') 
-		{
-			while ((operand.get() != '(') && (!operand.isEmpty())) 
+			if (prior(i) == 5) 
 			{
-				prefix = prefix + operand.pop();
+				prefix = prefix + i;
 			}
-			operand.pop();
-		}
-		else if (prior(i) == 10) 
-		{
-			i = i;
-		}
-		else 
-		{
-			if (prior(operand.get()) < prior(i)) 
+			else if ((i == '(') || ((prior(i) != 10) && (operand.isEmpty()))) 
 			{
 				operand.push(i);
 			}
-			else 
+			else if (i == ')') 
 			{
-				while (prior(operand.get()) >= prior(i)) 
+				while ((operand.get() != '(') && (!operand.isEmpty())) 
 				{
-					if (operand.isEmpty()) break;
 					prefix = prefix + operand.pop();
 				}
-				operand.push(i);
+				operand.pop();
+			}
+			else if (prior(i) == 10) 
+			{
+				i = i;
+			}
+			else {
+				if (prior(operand.get()) < prior(i)) 
+				{
+					operand.push(i);
+				}
+				else {
+					while (prior(operand.get()) >= prior(i)) 
+					{
+						if (operand.isEmpty()) break;
+						prefix = prefix + operand.pop();
+					}
+					operand.push(i);
+				}
 			}
 		}
+		while (!operand.isEmpty())
+			prefix = prefix + operand.pop();
+		return prefix;
 	}
-	while (!operand.isEmpty())
-		prefix = prefix + operand.pop();
-	return prefix;
-}
